@@ -1,0 +1,13 @@
+{
+  "name": "chat2",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "jade": "*",
+    "socket.io": "^1.7.3"
+  }
+}
