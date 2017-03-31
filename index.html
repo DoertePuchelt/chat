@@ -27,14 +27,23 @@
       return false;
     });
     socket.on('chat message', function(msg){
-      $('#messages').append($('<li>').text(msg));
+      var date = new Date().toLocaleDateString();
+      var time = new Date().toLocaleTimeString();
+      var ts = "[" +date+ " " +time+ "] ";
+      $('#messages').append($('<li>').text(ts+msg));
     });
     
     socket.on('disconnect', function(){
-      $('#messages').append($('<li>').text("user disconnected"));
+    	var date = new Date().toLocaleDateString();
+        var time = new Date().toLocaleTimeString();
+        var ts = "[" +date+ " " +time+ "] ";
+      $('#messages').append($('<li>').text(ts+"user disconnected"));
     });
     socket.on('connected', function(data){
-      $('#messages').append($('<li>').text(data));
+      var date = new Date().toLocaleDateString();
+      var time = new Date().toLocaleTimeString();
+      var ts = "[" +date+ " " +time+ "] ";
+      $('#messages').append($('<li>').text(ts+data));
     });
   });
 </script>
