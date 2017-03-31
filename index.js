@@ -2,12 +2,6 @@
  * http://usejsdoc.org/
  */
 
-var express = {
-  "name": "socket-chat-example",
-  "version": "0.0.1",
-  "description": "my first socket.io app",
-  "dependencies": {}
-};
 
 var app = require("express")();
 
@@ -21,8 +15,16 @@ app.get("/", function(req, res){
 	res.sendFile(__dirname +"/index.html");
 });
 io.on("connection", function(socket){
+	io.emit('connected', "user connected");
+	console.log("user connected");
+	
 	socket.on("chat message", function(msg){
 		io.emit("chat message", msg)
+	});
+	
+	socket.on('disconnect', function(){
+		io.emit("disconnect", "user disconnected");
+		console.log('user disconnected');
 	});
 });
 
