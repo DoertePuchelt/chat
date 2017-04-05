@@ -23,9 +23,21 @@
 			var socket = io();
 			console.log("name"+socket.username);
 			$('form').submit(function() {
-				socket.emit('chat message', $('#m').val());
-				$('#m').val('');
-				return false;
+				var text = $('#m').val().trim();
+				if(text == "\\list"){
+					socket.emit('userlist');
+					$('#m').val('');
+					return false;
+				}else if(text.indexOf('@') == 0){
+					socket.emit('private message', text);
+					$('#m').val('');
+					return false;
+				}else{					
+					socket.emit('chat message', text);
+					$('#m').val('');
+					return false;
+				}
+				
 			});
 			socket.on('chat message', function(data) {
 
@@ -36,6 +48,9 @@
 				$('#messages').append($('<li>').text(data));
 			});
 			socket.on('connected', function(data) {
+				$('#messages').append($('<li>').text(data));
+			});
+			socket.on('userlist', function(data) {
 				$('#messages').append($('<li>').text(data));
 			});
 		});
