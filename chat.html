@@ -1,8 +1,7 @@
-
-<!doctype html>
+<!DOCTYPE html>
 <html>
 <head>
-<title>Socket.IO chat</title>
+	<title>Socket.IO chat</title>
 	<style>
 		* { margin: 0; padding: 0; box-sizing: border-box; }
 		body { font: 13px Helvetica, Arial; }
@@ -20,9 +19,10 @@
 	<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 	<script>
 		$(function() {
-			var socket = io();
-			console.log("name"+socket.username);
+			// create a new socket
+			var socket = io(); 
 			$('form').submit(function() {
+				// handle the message, which is sended from the client
 				var text = $('#m').val().trim();
 				if(text == "\\list"){
 					socket.emit('userlist');
@@ -36,20 +36,23 @@
 					socket.emit('chat message', text);
 					$('#m').val('');
 					return false;
-				}
-				
+				}				
 			});
+			
+			// listening on new chat messages
 			socket.on('chat message', function(data) {
-
+				// append the timestamp, username and message to the content
 				$('#messages').append($('<li>').text(data.timestamp +data.username+": "+data.message ));
 			});
-
+			// listening if a user disconnects
 			socket.on('disconnect', function(data) {
 				$('#messages').append($('<li>').text(data));
 			});
+			// listening if a user connects
 			socket.on('connected', function(data) {
 				$('#messages').append($('<li>').text(data));
 			});
+			// listening if the user wants to see a list of all connected clients
 			socket.on('userlist', function(data) {
 				$('#messages').append($('<li>').text(data));
 			});
